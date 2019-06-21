@@ -3,9 +3,17 @@
 
 import numpy as np
 
-def sigmod(x): # external function, not in body of class
+def sigmoid(x): # external function, not in body of class
     # f(x) = 1/(1 + e^(-x))
     return 1/(1 + np.exp(-x))
+
+def dev_sigmoid(x):
+    fx = sigmoid(x)
+    return fx*(1-fx)
+
+def mse_loss(y_true, y_pred):
+    return ((y_true- y_pred)**2).mean()
+
 
 class Neuron():
     def __init__(self, weights, bias):
@@ -15,7 +23,7 @@ class Neuron():
     def feedForward(self, inputs):
         # weight inputs, add bias, then use activation function
         total = np.dot(self.weights, inputs) + self.bias
-        return sigmod(total)
+        return sigmoid(total)
 
 class neuralNetwork():
     """
@@ -40,6 +48,10 @@ class neuralNetwork():
         # the inputs for 01 are the outputs from h1 and h2
         out_o1 = self.o1.feedForward(np.array([out_h1, out_h2]))
         return out_o1
+
+
+
+
 
 # <--- instantiation --->
 netWork = neuralNetwork()
