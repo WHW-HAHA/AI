@@ -26,28 +26,43 @@ class Neuron():
         return sigmoid(total)
 
 class neuralNetwork():
-    """
-          A neural network with:
-        - 2 inputs
-        - a hidden layer with 2 neurons (h1, h2)
-        - an output layer with 1 neuron (o1)
-      Each neuron has the same weights and bias:
-        - w = [0, 1]
-        - b = 0
-    """
+    '''
+    Just for understand, should use matrix
+    '''
     def __init__(self):
-        weights = np.array([0 , 1])
-        bias = 0
-        self.h1 = Neuron(weights, bias)
-        self.h2 = Neuron(weights, bias)
-        self.o1 = Neuron(weights, bias)
+        # weights
+        self.weights = np.random.rand(6,1)
+
+        # biases
+        self.biases =  np.random.rand(3,1)
+
+        # Neuron
+        # self.h1 = Neuron(weights, bias)
+        # self.h2 = Neuron(weights, bias)
+        # self.o1 = Neuron(weights, bias)
 
     def feedForward(self, x):
-        out_h1 = self.h1.feedForward(x)
-        out_h2 = self.h2.feedForward(x)
-        # the inputs for 01 are the outputs from h1 and h2
-        out_o1 = self.o1.feedForward(np.array([out_h1, out_h2]))
-        return out_o1
+        h1 = sigmoid(self.weights[0] * x[0] + self.weights[1] * x[1] + self.biases[0])
+        h2 = sigmoid(self.weights[2] * x[0] + self.weights[3] * x[1] + self.biases[1])
+        o1 = sigmoid(self.weights[4] * h1 +  self.weights[5] * h2 + self.biases[2])
+
+    def train(self, data, all_y_trues):
+        learn_rate = 0.1
+        eprochs = 1000 # number of times to loop through the entire dataset
+
+        for eproch in range(eprochs):
+            for x, y_true in zip(data, all_y_trues):
+                sum_h1 = self.weights[0] * x[0] + self.weights[1] * x[1] + self.biases[0]
+                h1 = sigmoid(sum_h1)
+
+                sum_h2 = self.weights[2] * x[0] + self.weights[3] * x[1] + self.biases[1]
+                h2 = sigmoid(sum_h2)
+
+                sum_o1 = self.weights[4] * h1 + self.weights[5] * h2 + self.biases[2]
+                o1 = sigmoid(sum_o1)
+
+                y_pred = o1
+                d_L_d_ypred = -2 * (y_true - y_pred)
 
 
 
