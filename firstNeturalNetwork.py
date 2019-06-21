@@ -19,7 +19,8 @@ class NeturalNetwork():
     def backPropgation(self):
         # backward propgation function
         # application of the chain rule to find the derivative of the loss function with respect to the weight layer 1 and 2
-        self.
+        self.d_weights2 = np.dot(self.layer1.T,(2*(self.y - self.output)* self.sigmoid_derivative(self.output)))
+
 
 
     def sigmoid(self):
