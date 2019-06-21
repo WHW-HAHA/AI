@@ -32,7 +32,9 @@ class neuralNetwork():
     '''
     def __init__(self):
         # weights
-        self.weights = np.random.rand(6,1)
+        mu = 0
+        sigma = 0.1
+        self.weights = np.random.normal(mu, sigma, 6)
 
         # biases
         self.biases =  np.random.rand(3,1)
