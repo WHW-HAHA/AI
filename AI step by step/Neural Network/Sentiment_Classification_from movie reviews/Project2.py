@@ -6,7 +6,7 @@ Hanwei_Wang_94@outlook.com
 import numpy as np
 from collections import Counter
 
-class projec2():
+class project2():
 
     def __init__(self, total_counts):
         if isinstance(total_counts, dict):

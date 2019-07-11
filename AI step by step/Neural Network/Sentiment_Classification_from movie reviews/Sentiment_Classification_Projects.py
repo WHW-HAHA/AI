@@ -12,12 +12,12 @@ with open('reviews.txt', 'r') as review_content:
 
 
 '''
-Project 1
+Step 1
 '''
 from Project1 import project1
-Part1 = project1(labels= labels, reviews=reviews)
-Part1.pretty_printer_review_and_label(10)
-Part1.Validation()
+Step1 = project1(labels= labels, reviews=reviews)
+Step1.pretty_printer_review_and_label(10)
+Step1.Validation()
 
 ###
 # for word, count in Part1.positive_counts.most_common()[:10]:
@@ -26,6 +26,20 @@ Part1.Validation()
 #     print(word,':', count, '\n')
 # The top words in the most common list are 'the', 'are' ..., which won't help us
 
-Part1.picking_valuable_words(many = 100)
-print('Top Positive:', Part1.pos_neg_ratios.most_common()[:20])
-print('Top Negative', list(reversed(Part1.pos_neg_ratios.most_common()))[:20])
+Step1.picking_valuable_words(many = 100)
+print('Top Positive:', Step1.pos_neg_ratios.most_common()[:20])
+print('Top Negative', list(reversed(Step1.pos_neg_ratios.most_common()))[:20])
+
+'''
+Step 2: convert words in review and label to numerical data 
+'''
+
+from Project2 import project2
+Step2 = project2(total_counts=Step1.total_counts)
+
+'''
+Step 3: Construct neural network
+'''
+
+from Nural_Network import SentimentNetwork
+Network = SentimentNetwork(reviews = reviews, review_vocab=Step2.vocab, labels = labels)

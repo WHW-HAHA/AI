@@ -24,7 +24,6 @@ class project1():
                 for word in self.reviews[i].split(' '):
                     self.positive_counts[word] += 1
                     self.total_counts[word] += 1
-
             else:
                 for word in self.reviews[i].split(' '):
                     self.negative_counts[word] += 1
