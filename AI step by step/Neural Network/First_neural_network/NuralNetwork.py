@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
 # # Your first neural network
@@ -8,11 +8,6 @@
 # 
 
 # In[1]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'retina'")
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -24,14 +19,12 @@ import matplotlib.pyplot as plt
 
 # In[2]:
 
-
 data_path = 'Bike-Sharing-Dataset/hour.csv'
 
 rides = pd.read_csv(data_path)
 
 
-# In[4]:
-
+# In[3]:
 
 rides.head(10)
 
@@ -42,8 +35,7 @@ rides.head(10)
 # 
 # Below is a plot showing the number of bike riders over the first 10 days or so in the data set. (Some days don't have exactly 24 entries in the data set, so it's not exactly 10 days.) You can see the hourly rentals here. This data is pretty complicated! The weekends have lower over all ridership and there are spikes when people are biking to and from work during the week. Looking at the data above, we also have information about temperature, humidity, and windspeed, all of these likely affecting the number of riders. You'll be trying to capture all this with your model.
 
-# In[5]:
-
+# In[4]:
 
 rides[:24*10].plot(x='dteday', y='cnt')
 
@@ -51,8 +43,7 @@ rides[:24*10].plot(x='dteday', y='cnt')
 # ### Dummy variables
 # Here we have some categorical variables like season, weather, month. To include these in our model, we'll need to make binary dummy variables. This is simple to do with Pandas thanks to `get_dummies()`.
 
-# In[11]:
-
+# In[5]:
 
 dummy_fields = ['season', 'weathersit', 'mnth', 'hr', 'weekday']
 for each in dummy_fields:
@@ -71,8 +62,7 @@ data.head()
 # 
 # The scaling factors are saved so we can go backwards when we use the network for predictions.
 
-# In[13]:
-
+# In[6]:
 
 quant_features = ['casual', 'registered', 'cnt', 'temp', 'hum', 'windspeed']
 # Store scalings in a dictionary so we can convert back later
@@ -87,8 +77,7 @@ for each in quant_features:
 # 
 # We'll save the data for the last approximately 21 days to use as a test set after we've trained the network. We'll use this set to make predictions and compare them with the actual number of riders.
 
-# In[14]:
-
+# In[8]:
 
 # Save data for approximately the last 21 days 
 # Test data
@@ -106,8 +95,7 @@ test_features, test_targets = test_data.drop(target_fields, axis=1), test_data[t
 
 # We'll split the data into two sets, one for training and one for validating as the network is being trained. Since this is time series data, we'll train on historical data, then try to predict on future data (the validation set).
 
-# In[15]:
-
+# In[9]:
 
 # Hold out the last 60 days or so of the remaining data as a validation set
 train_features, train_targets = features[:-60*24], targets[:-60*24]
@@ -133,8 +121,7 @@ val_features, val_targets = features[-60*24:], targets[-60*24:]
 # 4. Implement the forward pass in the `run` method.
 #   
 
-# In[24]:
-
+# In[10]:
 
 class NeuralNetwork(object):
     def __init__(self, input_nodes, hidden_nodes, output_nodes, learning_rate):
@@ -160,45 +147,44 @@ class NeuralNetwork(object):
             ---------
             features: 2D array, each row is one data record, each column is a feature
             targets: 1D array of target values
-        
         '''
-        n_records = features.shape[0] # get number of rows
-        delta_weights_i_h = np.zeros(self.weights_input_to_hidden.shape)
-        delta_weights_h_o = np.zeros(self.weights_hidden_to_output.shape)
+        column1 = features.shape[1]
+        delta_weights_i_h = np.zeros(column1)
+        column2 = targets.shape[1]
+        delta_weights_h_o = np.zeros(column2)
         for X, y in zip(features, targets):
             #### Implement the forward pass here ####
             ### Forward pass ###
             # TODO: Hidden layer - Replace these values with your calculations.
-            print (self.weights_input_to_hidden.shape)
-            print (features.shape)
-            hidden_inputs = np.dot(self.weights_input_to_hidden, features) # signals into hidden layer
+            hidden_inputs = np.dot(X, self.weights_input_to_hidden) # signals into hidden layer
             
             hidden_outputs = self.activation_function(hidden_inputs) # signals from hidden layer
 
             # TODO: Output layer - Replace these values with your calculations.
-            final_inputs = np.dot(self.weights_hidden_to_output,self.weights_hidden_to_output) # signals into final output layer
+            final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # signals into final output layer
             final_outputs = final_inputs # signals from final output layer
             
             #### Implement the backward pass here ####
             ### Backward pass ###
             # TODO: Output error - Replace this value with your calculations.
-            error = final_outputs - targets # Output layer error is the difference between desired target and actual output.
+            error = y - final_outputs # Output layer error is the difference between desired target and actual output.
             
             # TODO: Calculate the hidden layer's contribution to the error
             # hidden_error = self.weights_hidden_to_output * error * self.activation_function_prime(  )
-            hidden_error = self.weights_hidden_to_output * error 
+            hidden_error = self.weights_hidden_to_output * error # 1 x 16
             
             # TODO: Backpropagated error terms - Replace these values with your calculations.
-            output_error_term = error
-            hidden_error_term = hidden_error * final_inputs * (1-final_inputs)
+            output_error_term = error # 1
+            hidden_error_term = hidden_error * final_inputs * ( 1 - final_inputs) # 1 x 16
 
             # Weight step (input to hidden)
-            delta_weights_i_h += self.lr * np.dot(hidden_inputs, hidden_error_term)
+            delta_weights_i_h += self.lr * output_error_term[0] * X # 56 x 1
+            
             # Weight step (hidden to output)
-            delta_weights_h_o += self.lr * output_error_term * final_inputs
+            delta_weights_h_o += self.lr * hidden_error_term * final_inputs[0] # 1 x 16
 
         # TODO: Update the weights - Replace these values with your calculations.
-        self.weights_hidden_to_output += delta_weights_h_o # update hidden-to-output weights with gradient descent step
+        self.weights_hidden_to_output += delta_weights_h_o.T # update hidden-to-output weights with gradient descent step
         self.weights_input_to_hidden += delta_weights_i_h # update input-to-hidden weights with gradient descent step
  
     def run(self, features):
@@ -215,7 +201,7 @@ class NeuralNetwork(object):
         hidden_outputs = self.activation_function(np.dot(self.weights_input_to_hidden,hidden_inputs)) # signals from hidden layer
         
         # TODO: Output layer - Replace these values with the appropriate calculations.
-        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output  ) # signals into final output layer
+        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # signals into final output layer
         final_outputs = final_inputs # signals from final output layer 
         
         return final_outputs
@@ -224,8 +210,7 @@ class NeuralNetwork(object):
 # ## OPTIONAL: Unit tests
 # Run these unit tests to check the correctness of your network implementation. This will help you be sure your network was implemented correctly befor you starting trying to train it. These tests must all be successful to pass the project.
 
-# In[25]:
-
+# In[11]:
 
 import unittest
 
@@ -235,6 +220,50 @@ test_w_i_h = np.array([[0.1, 0.4, -0.3],
                        [-0.2, 0.5, 0.2]])
 test_w_h_o = np.array([[0.3, -0.1]])
 
+# Test section
+#     def __init__(self, input_nodes, hidden_nodes, output_nodes, learning_rate):
+
+iterations = 5000
+import sys
+
+def MSE(y, Y):
+    return np.mean((y - Y) ** 2)
+
+network = NeuralNetwork(input_nodes = train_features.shape[1], hidden_nodes= 16 , output_nodes= 1, learning_rate = 0.1)
+losses = {'train': [], 'validation': []}
+for e in range(iterations):
+    if (e > 500):
+        network.lr = 0.01
+    if (e > 2000):
+        network.lr = 0.001
+    # Go through a random batch of 128 records from the training data set
+    batch = np.random.choice(train_features.index, size=128)
+
+    '''
+    for record, target in zip(train_features.ix[batch].values,
+                              train_targets.ix[batch]['cnt']):
+        network.train(record, target)
+    '''
+    record = train_features.ix[batch].values
+    target = train_targets.ix[batch]['cnt']
+    network.train(features= record, targets= target )
+    # Printing out the training progress
+    train_loss = MSE(network.run(train_features), train_targets['cnt'].values)
+    val_loss = MSE(network.run(val_features), val_targets['cnt'].values)
+    sys.stdout.write("\rProgress: " + str(100 * e / float(iterations))[:4] \
+                     + "% ... Training loss: " + str(train_loss)[:5] \
+                     + " ... Validation loss: " + str(val_loss)[:5])
+
+    losses['train'].append(train_loss)
+    losses['validation'].append(val_loss)
+
+
+
+print(' ')
+
+
+
+#
 class TestMethods(unittest.TestCase):
     
     ##########
@@ -254,7 +283,8 @@ class TestMethods(unittest.TestCase):
     ##########
 
     def test_activation(self):
-        network = NeuralNetwork(3, 2, 1, 0.5)
+        #     def __init__(self, input_nodes, hidden_nodes, output_nodes, learning_rate):
+        network = NeuralNetwork(input_nodes= 3, hidden_nodes= 2, output_nodes=1, learning_rate=0.5)
         # Test that the activation function is a sigmoid
         self.assertTrue(np.all(network.activation_function(0.5) == 1/(1+np.exp(-0.5))))
 
@@ -299,13 +329,11 @@ unittest.TextTestRunner().run(suite)
 
 # In[ ]:
 
-
 def MSE(y, Y):
     return np.mean((y-Y)**2)
 
 
 # In[ ]:
-
 
 #Delete the following line if you have successfully implemented the NeuralNetowrk in the optional session
 from NN import NeuralNetwork
@@ -344,7 +372,6 @@ for e in range(iterations):
 
 # In[ ]:
 
-
 plt.plot(losses['train'], label='Training loss')
 plt.plot(losses['validation'], label='Validation loss')
 plt.legend()
@@ -356,7 +383,6 @@ _ = plt.ylim()
 # Here, use the test data to view how well your network is modeling the data. If something is completely wrong here, make sure each step in your network is implemented correctly.
 
 # In[ ]:
-
 
 fig, ax = plt.subplots(figsize=(8,4))
 
@@ -382,7 +408,6 @@ _ = ax.set_xticklabels(dates[12::24], rotation=45)
 # #### Your answer below
 
 # In[ ]:
-
 
 
 
