@@ -130,82 +130,88 @@ class NeuralNetwork(object):
         self.hidden_nodes = hidden_nodes
         self.output_nodes = output_nodes
 
-        self.weights_input_to_hidden = np.random.normal(0.0, self.input_nodes**-0.5, 
-                                       (self.input_nodes, self.hidden_nodes))
+        self.weights_input_to_hidden = np.random.normal(0.0, self.input_nodes ** -0.5,
+                                                        (self.input_nodes, self.hidden_nodes))
 
-        self.weights_hidden_to_output = np.random.normal(0.0, self.hidden_nodes**-0.5, 
-                                       (self.hidden_nodes, self.output_nodes))
+        self.weights_hidden_to_output = np.random.normal(0.0, self.hidden_nodes ** -0.5,
+                                                         (self.hidden_nodes, self.output_nodes))
         self.lr = learning_rate
-        
-        self.activation_function = lambda x : 1/(1 - np.exp( -x ))  # Replace 0 with your sigmoid calculation.
-        
-    
+
+        self.activation_function = lambda x: 1 / (1 + np.exp(-x))  # Replace 0 with your sigmoid calculation.
+
     def train(self, features, targets):
-        ''' Train the network on batch of features and targets. 
-        
+        ''' Train the network on batch of features and targets.
+
             Arguments
             ---------
             features: 2D array, each row is one data record, each column is a feature
+            1 X 16
             targets: 1D array of target values
+            targets
         '''
-        column1 = features.shape[1]
-        delta_weights_i_h = np.zeros(column1)
-        column2 = targets.shape[1]
-        delta_weights_h_o = np.zeros(column2)
+        delta_weights_i_h = np.zeros(self.weights_input_to_hidden.shape)
+        delta_weights_h_o = np.zeros(self.weights_hidden_to_output.shape)
+        features = np.array(features, ndmin=2)
+        targets = np.array(targets, ndmin=2)
+
         for X, y in zip(features, targets):
             #### Implement the forward pass here ####
             ### Forward pass ###
             # TODO: Hidden layer - Replace these values with your calculations.
-            hidden_inputs = np.dot(X, self.weights_input_to_hidden) # signals into hidden layer
-            
-            hidden_outputs = self.activation_function(hidden_inputs) # signals from hidden layer
+            X = np.array(X, ndmin=2)
+            y = np.array(y, ndmin=2)
+
+            hidden_inputs = np.dot(X, self.weights_input_to_hidden)  # 1 x 16 #   signals into hidden layer
+            hidden_outputs = self.activation_function(hidden_inputs)  # 1 x 16  # signals from hidden layer
 
             # TODO: Output layer - Replace these values with your calculations.
-            final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # signals into final output layer
-            final_outputs = final_inputs # signals from final output layer
-            
+            final_inputs = np.dot(hidden_outputs,
+                                  self.weights_hidden_to_output)  # 1 x 1   # signals into final output layer
+            final_outputs = final_inputs  # 1 x 1 #signals from final output layer
+
             #### Implement the backward pass here ####
             ### Backward pass ###
             # TODO: Output error - Replace this value with your calculations.
-            error = y - final_outputs # Output layer error is the difference between desired target and actual output.
-            
+            error = y - final_outputs  # 1 x 1 # Output layer error is the difference between desired target and actual output.
+
             # TODO: Calculate the hidden layer's contribution to the error
             # hidden_error = self.weights_hidden_to_output * error * self.activation_function_prime(  )
-            hidden_error = self.weights_hidden_to_output * error # 1 x 16
-            
+            hidden_error = self.weights_hidden_to_output.T * error  # 1 * 16
+
             # TODO: Backpropagated error terms - Replace these values with your calculations.
-            output_error_term = error # 1
-            hidden_error_term = hidden_error * final_inputs * ( 1 - final_inputs) # 1 x 16
+            output_error_term = error  # 1 x 1
+            hidden_error_term = hidden_error * hidden_outputs * (1 - hidden_outputs)  # 1 x 16
 
             # Weight step (input to hidden)
-            delta_weights_i_h += self.lr * output_error_term[0] * X # 56 x 1
-            
+            delta_weights_i_h += self.lr * np.dot(X.T, hidden_error_term)  # 56 x 16
+            # print(delta_weights_i_h[0][0])
+
             # Weight step (hidden to output)
-            delta_weights_h_o += self.lr * hidden_error_term * final_inputs[0] # 1 x 16
+            delta_weights_h_o += self.lr * hidden_error_term.T * output_error_term  # 16 x 1
+            # print(delta_weights_h_o[0][0])
 
         # TODO: Update the weights - Replace these values with your calculations.
-        self.weights_hidden_to_output += delta_weights_h_o.T # update hidden-to-output weights with gradient descent step
-        self.weights_input_to_hidden += delta_weights_i_h # update input-to-hidden weights with gradient descent step
- 
+        self.weights_hidden_to_output += delta_weights_h_o  # update hidden-to-output weights with gradient descent step
+        self.weights_input_to_hidden += delta_weights_i_h  # update input-to-hidden weights with gradient descent step
+
     def run(self, features):
-        ''' Run a forward pass through the network with input features 
-        
+        ''' Run a forward pass through the network with input features
+
             Arguments
             ---------
             features: 1D array of feature values
         '''
-        
         #### Implement the forward pass here ####
         # TODO: Hidden layer - replace these values with the appropriate calculations.
-        hidden_inputs = features # signals into hidden layer
-        hidden_outputs = self.activation_function(np.dot(self.weights_input_to_hidden,hidden_inputs)) # signals from hidden layer
-        
-        # TODO: Output layer - Replace these values with the appropriate calculations.
-        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # signals into final output layer
-        final_outputs = final_inputs # signals from final output layer 
-        
-        return final_outputs
+        hidden_inputs = features  # signals into hidden layer
+        hidden_outputs = self.activation_function(
+            np.dot(hidden_inputs, self.weights_input_to_hidden))  # signals from hidden layer
 
+        # TODO: Output layer - Replace these values with the appropriate calculations.
+        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output)  # signals into final output layer
+        final_outputs = final_inputs  # signals from final output layer
+
+        return final_outputs
 
 # ## OPTIONAL: Unit tests
 # Run these unit tests to check the correctness of your network implementation. This will help you be sure your network was implemented correctly befor you starting trying to train it. These tests must all be successful to pass the project.
@@ -219,6 +225,14 @@ targets = [0.4]
 test_w_i_h = np.array([[0.1, 0.4, -0.3], 
                        [-0.2, 0.5, 0.2]])
 test_w_h_o = np.array([[0.3, -0.1]])
+
+NN = NeuralNetwork(3, 2, 1, 0.5)
+NN.weights_input_to_hidden = test_w_i_h.T
+NN.weights_hidden_to_output = test_w_h_o.T
+NN.train(inputs, targets)
+
+
+
 
 # Test section
 #     def __init__(self, input_nodes, hidden_nodes, output_nodes, learning_rate):
@@ -239,14 +253,10 @@ for e in range(iterations):
     # Go through a random batch of 128 records from the training data set
     batch = np.random.choice(train_features.index, size=128)
 
-    '''
+
     for record, target in zip(train_features.ix[batch].values,
                               train_targets.ix[batch]['cnt']):
         network.train(record, target)
-    '''
-    record = train_features.ix[batch].values
-    target = train_targets.ix[batch]['cnt']
-    network.train(features= record, targets= target )
     # Printing out the training progress
     train_loss = MSE(network.run(train_features), train_targets['cnt'].values)
     val_loss = MSE(network.run(val_features), val_targets['cnt'].values)

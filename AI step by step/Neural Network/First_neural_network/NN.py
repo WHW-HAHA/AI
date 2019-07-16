@@ -40,6 +40,7 @@ class NeuralNetwork(object):
         ### Backward pass ###
         
         # 1 is the gradient of f'(x) where f(x) = x 
+        
         output_delta = (targets - final_outputs) * 1
 
         hidden_delta = np.dot(self.weights_hidden_to_output.T, output_delta) * hidden_outputs * (1-hidden_outputs)
