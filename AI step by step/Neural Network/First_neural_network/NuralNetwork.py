@@ -77,14 +77,14 @@ class NeuralNetwork():
             final_inputs = np.dot(self.weights_hidden_to_output, hidden_outputs)
             final_outputs = final_inputs
 
-            error = y - final_outputs    # 3 * 1
+            error = y - final_outputs
             error_term = error
 
             hidden_error = np.dot(error_term.T, self.weights_hidden_to_output)
             hidden_error_term = hidden_error * hidden_outputs * (1-hidden_outputs)
 
             # delta_weights_h_o += np.dot(error_term, hidden_outputs.T)
-            # delta_weights_i_h += np.dot(hidden_error_term, X )
+            # delta_weights_i_h += np.dot(hidden_error_term, X)
 
             delta_weights_h_o += error_term *  hidden_outputs.T
             delta_weights_i_h += hidden_error_term * X
