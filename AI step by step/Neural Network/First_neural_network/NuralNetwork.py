@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib as plt
 import unittest
+import sys
 
 data_path = 'Bike-Sharing-Dataset/hour.csv'
 rides = pd.read_csv(data_path)
@@ -149,8 +150,73 @@ suite = unittest.TestLoader().loadTestsFromModule(TestMethods())
 unittest.TextTestRunner().run(suite)
 
 # use MSE to the evaluate the performance of the net work
+from NN import NeuralNetwork
 def MSE(y, Y):
     return np.mean((y-Y)**2)
+
+# Tune the model
+iteration = 5000 # different rate for 0--2000, 2001-- 4000, 4001--5000
+learning_rate = 0.1
+hidden_nodes = 16
+output_nodes = 1
+N_i = train_features.shape[1]
+network = NeuralNetwork(input_nodes=N_i, hidden_nodes = hidden_nodes, output_nodes = output_nodes, learning_rate = learning_rate)
+losses = {'train':[], 'validation': []}
+
+for e in range(iteration):
+    if (e > 2000):
+        network.lr = 0.05
+    elif (e > 4000):
+        network.lr = 0.01
+    else:
+        network.lr = 0.001
+
+    # generate the batch by random selection from the dataset
+    batch = np.random.choice(train_features.index, size = 128)
+    for record, target in zip(train_features.ix[batch].values, train_targets.ix[batch]['cnt']):
+        # use cnt as test targets
+        train_loss = MSE(network.run(train_features), train_targets['cnt'].values)
+        val_loss = MSE(network.run(val_features), val_targets['cnt'].values)
+        sys.stdout.write("\rProgress: " + str(100 * e/ float(iteration))[:4]
+                         + "% ... Training loss: " + str(train_loss)[:5]
+                         + " ... Validation loss: " + str(val_loss)[:5])
+        losses['train'].append(train_loss)
+        losses['validation'].append(val_loss)
+
+# visualization tool
+
+plt.plot(losses['train'], label = 'Training loss')
+plt.plot(losses['validation'], label = 'validation loss')
+plt.legend()
+_ = plt.ylim()
+
+
+fig, ax = fig, ax = plt.subplots(figsize=(8,4))
+
+mean, std = scaled_features['cnt']
+predictions = network.run(test_features)*std + mean
+ax.plot(predictions[0], label='Prediction')
+ax.plot((test_targets['cnt']*std + mean).values, label='Data')
+ax.set_xlim(right=len(predictions))
+ax.legend()
+
+dates = pd.to_datetime(rides.ix[test_data.index]['dteday'])
+dates = dates.apply(lambda d: d.strftime('%b %d'))
+ax.set_xticks(np.arange(len(dates))[12::24])
+_ = ax.set_xticklabels(dates[12::24], rotation=45)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NuralNetwork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="154" lean-forward="true" selection-start-line="154" selection-end-line="154" />
+            <state>
+              <caret line="183" column="45" lean-forward="true" selection-start-line="183" selection-start-column="45" selection-end-line="183" selection-end-column="45" />
               <folding>
                 <element signature="e#31#49#0" expanded="true" />
               </folding>
@@ -61,15 +61,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NuralNetwork.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -78,6 +69,11 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>val_features</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
@@ -93,10 +89,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-299" />
-    <option name="y" value="305" />
-    <option name="width" value="1934" />
-    <option name="height" value="1037" />
+    <option name="x" value="1912" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -224,15 +219,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="1912" y="0" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.32982087" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26868907" />
+      <window_info anchor="bottom" id="Run" order="2" weight="1.0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.248104" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -347,16 +341,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NuralNetwork.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="154" lean-forward="true" selection-start-line="154" selection-end-line="154" />
-          <folding>
-            <element signature="e#31#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/pandas/core/indexing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46788">
@@ -381,6 +365,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/NuralNetwork.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Network.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -388,10 +379,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NuralNetwork.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
+    <entry file="file://$PROJECT_DIR$/NuralNetwork.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state>
-          <selected id="0" />
+          <caret line="183" column="45" lean-forward="true" selection-start-line="183" selection-start-column="45" selection-end-line="183" selection-end-column="45" />
+          <folding>
+            <element signature="e#31#49#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
