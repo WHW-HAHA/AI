@@ -148,6 +148,10 @@ test_w_h_o = np.array([[0.3, -0.1]])      # shape 1x2
 suite = unittest.TestLoader().loadTestsFromModule(TestMethods())
 unittest.TextTestRunner().run(suite)
 
+# use MSE to the evaluate the performance of the net work
+def MSE(y, Y):
+    return np.mean((y-Y)**2)
+
 
 
 
