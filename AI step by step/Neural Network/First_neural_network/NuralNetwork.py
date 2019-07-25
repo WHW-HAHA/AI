@@ -70,10 +70,13 @@ class NeuralNetwork():
         n_records = features.shape[0]
         delta_weights_i_h = np.zeros(self.weights_input_to_hidden.shape)
         delta_weights_h_o = np.zeros(self.weights_hidden_to_output.shape)
+        # X = features
+        # y = targets
 
         for X, y in zip(features, targets):
             X = np.array(X, ndmin = 2)
             y = np.array(y, ndmin = 2)
+
             hidden_inputs = np.dot(self.weights_input_to_hidden, X.T)
             hidden_outputs = self.activation_function(hidden_inputs)
 
