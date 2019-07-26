@@ -2,7 +2,8 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 from quiz import get_weights, get_biases, linear
-
+import warnings
+warnings.filterwarnings('ignore')
 
 
 def mnist_features_labels(n_labels):
