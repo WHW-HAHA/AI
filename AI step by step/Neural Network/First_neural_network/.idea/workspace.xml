@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a9a67b7e-073e-4bcb-8012-cf854e24a76c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Network.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/NuralNetwork.py" beforeDir="false" afterPath="$PROJECT_DIR$/NuralNetwork.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,11 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NuralNetwork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="174" column="27" lean-forward="true" selection-start-line="174" selection-start-column="27" selection-end-line="174" selection-end-column="27" />
-              <folding>
-                <element signature="e#31#49#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-14">
+              <caret line="140" selection-start-line="140" selection-end-line="140" />
             </state>
           </provider>
         </entry>
@@ -53,10 +51,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="-8" />
-    <option name="width" value="977" />
-    <option name="height" value="1088" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-3" />
+    <option name="y" value="252" />
+    <option name="width" value="975" />
+    <option name="height" value="838" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -184,14 +183,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-46" width="781" height="870" extended-state="0" />
+    <frame x="-2" y="202" width="780" height="670" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.32885906" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30352303" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4163569" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3387534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -210,7 +210,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/NuralNetwork.py</url>
-          <line>76</line>
+          <line>169</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
@@ -335,11 +335,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/NuralNetwork.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="174" column="27" lean-forward="true" selection-start-line="174" selection-start-column="27" selection-end-line="174" selection-end-column="27" />
-          <folding>
-            <element signature="e#31#49#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-14">
+          <caret line="140" selection-start-line="140" selection-end-line="140" />
         </state>
       </provider>
     </entry>
