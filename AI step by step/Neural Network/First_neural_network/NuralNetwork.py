@@ -97,9 +97,9 @@ class NeuralNetwork():
         self.output_nodes = output_nodes
 
         self.weights_input_to_hidden = np.random.normal(0, self.input_nodes**-0.5,
-                                                        (self.input_nodes, self.hidden_nodes))
+                                                        (self.hidden_nodes, self.input_nodes))
         self.weights_hidden_to_output = np.random.normal(0, self.hidden_nodes**-0.5,
-                                                         (self.hidden_nodes, self.output_nodes))
+                                                         (self.output_nodes, self.hidden_nodes))
         self.lr = learning_rate
         self.activation_function = lambda x: 1/(1+np.exp(-x))
 
@@ -132,11 +132,6 @@ class NeuralNetwork():
             delta_weights_i_h += X.T * hidden_error_term.T
         self.weights_hidden_to_output += self.lr * delta_weights_h_o / n_records
         self.weights_input_to_hidden += self.lr * delta_weights_i_h / n_records
-
-        self.weights_input_to_hidden = self.weights_input_to_hidden.transpose()
-        self.weights_hidden_to_output = self.weights_hidden_to_output.transpose()
-
-
 
     def run(self, features):
         features = np.array(features, ndmin=2)
@@ -180,10 +175,12 @@ class TestMethods(unittest.TestCase):
 
         network.train(inputs, targets)
         self.assertTrue(np.allclose(network.weights_hidden_to_output,
-                                    np.array([[0.37275328, -0.03172939]])))
+                                    np.array([[0.37275328],
+                                              [-0.03172939]])))
         self.assertTrue(np.allclose(network.weights_input_to_hidden,
-                                    np.array([[ 0.10562014,  0.39775194, -0.29887597],
-                                              [-0.20185996,  0.50074398,  0.19962801]])))
+                                    np.array([[ 0.10562014, -0.20185996],
+                                              [0.39775194, 0.50074398],
+                                              [-0.29887597, 0.19962801]])))
 
     def test_run(self):
         # Test correctness of run method

@@ -124,7 +124,7 @@ class NeuralNetwork():
             self.error = y - final_outputs
             error_term = self.error
 
-            hidden_error = np.dot(error_term, self.weights_hidden_to_output) # shape should be hidden_nodes x 1 --> 16 x 1 or 2 x 1
+            hidden_error = np.dot(error_term.T, self.weights_hidden_to_output) # shape should be hidden_nodes x 1 --> 16 x 1 or 2 x 1
             hidden_error_term = hidden_error * hidden_outputs * (1-hidden_outputs) # 2 x 1
 
             delta_weights_h_o += error_term * hidden_outputs.T  # shape should like self.w_h_o --> 1 x 2 or 1 x 16
@@ -135,7 +135,6 @@ class NeuralNetwork():
 
         self.weights_input_to_hidden = self.weights_input_to_hidden.transpose()
         self.weights_hidden_to_output = self.weights_hidden_to_output.transpose()
-
 
         print(self.weights_hidden_to_output)
         print(self.weights_input_to_hidden)
