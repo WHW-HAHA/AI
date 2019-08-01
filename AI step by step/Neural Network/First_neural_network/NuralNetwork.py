@@ -196,6 +196,7 @@ def MSE(y, Y):
     return np.mean((y-Y)**2)
 
 import sys
+# from NN import NeuralNetwork
 
 ### Set the hyperparameters here ###
 iterations = 1000
