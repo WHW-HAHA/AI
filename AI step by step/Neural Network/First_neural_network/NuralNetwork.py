@@ -97,9 +97,9 @@ class NeuralNetwork():
         self.output_nodes = output_nodes
 
         self.weights_input_to_hidden = np.random.normal(0, self.input_nodes**-0.5,
-                                                        (self.hidden_nodes, self.input_nodes))
+                                                        (self.input_nodes, self.hidden_nodes))
         self.weights_hidden_to_output = np.random.normal(0, self.hidden_nodes**-0.5,
-                                                         (self.output_nodes, self.hidden_nodes))
+                                                         (self.hidden_nodes, self.output_nodes))
         self.lr = learning_rate
         self.activation_function = lambda x: 1/(1+np.exp(-x))
 
@@ -178,7 +178,7 @@ class TestMethods(unittest.TestCase):
                                     np.array([[0.37275328],
                                               [-0.03172939]])))
         self.assertTrue(np.allclose(network.weights_input_to_hidden,
-                                    np.array([[ 0.10562014, -0.20185996],
+                                    np.array([[0.10562014, -0.20185996],
                                               [0.39775194, 0.50074398],
                                               [-0.29887597, 0.19962801]])))
 
@@ -192,18 +192,15 @@ class TestMethods(unittest.TestCase):
 suite = unittest.TestLoader().loadTestsFromModule(TestMethods())
 unittest.TextTestRunner().run(suite)
 
-
 def MSE(y, Y):
     return np.mean((y-Y)**2)
 
-
 import sys
-
 
 ### Set the hyperparameters here ###
 iterations = 1000
 learning_rate = 0.5
-hidden_nodes = 5
+hidden_nodes = 2
 output_nodes = 1
 
 N_i = train_features.shape[1]
