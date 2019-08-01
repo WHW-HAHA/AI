@@ -236,7 +236,6 @@ plt.legend()
 _ = plt.ylim()
 
 
-
 fig, ax = plt.subplots(figsize=(8,4))
 
 mean, std = scaled_features['cnt']
